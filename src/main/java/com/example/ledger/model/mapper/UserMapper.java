@@ -1,7 +1,7 @@
 package com.example.ledger.model.mapper;
 
 
-import com.example.ledger.dto.response.UserResponseDto;
+import com.example.ledger.dto.response.UserResp;
 import com.example.ledger.msg.UserReq;
 import com.example.ledger.user.datasource.entity.LedgerUser;
 
@@ -14,8 +14,8 @@ public class UserMapper {
         return user;
     }
 
-    public static UserResponseDto toResponseDto(LedgerUser user) {
-        UserResponseDto responseDto = new UserResponseDto();
+    public static UserResp toResponseDto(LedgerUser user) {
+        UserResp responseDto = new UserResp();
         responseDto.setUserId(user.getUserId());
         responseDto.setUserName(user.getUserName());
         responseDto.setStatus(user.getStatus());

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ledger.constants.Constants.PathUrl;
 import static com.example.ledger.constants.Constants.PathUrl.USER_BASE_URL;
-import com.example.ledger.dto.response.UserResponseDto;
+import com.example.ledger.dto.response.UserResp;
 import com.example.ledger.model.mapper.UserMapper;
 import com.example.ledger.msg.MsgUserReq;
 import com.example.ledger.user.service.api.UserService;
@@ -35,7 +35,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public UserResponseDto addUser(@Valid @RequestBody MsgUserReq request) {
+    public UserResp addUser(@Valid @RequestBody MsgUserReq request) {
         validate(request);
         var user = UserMapper.toEntity(request.getRequestBody());
         var response = UserMapper.toResponseDto(userService.addUser(user));
@@ -44,7 +44,7 @@ public class UserController {
     }
 
     @PutMapping(value=PathUrl.GET_USER_ID)
-    public UserResponseDto updateUser(@PathVariable Long userId, @Valid @RequestBody MsgUserReq request) {
+    public UserResp updateUser(@PathVariable Long userId, @Valid @RequestBody MsgUserReq request) {
         validate(request);
         var user = UserMapper.toEntity(request.getRequestBody());
         var response = UserMapper.toResponseDto(userService.updateUser(userId, user));
@@ -53,7 +53,7 @@ public class UserController {
     }
 
     @PatchMapping(value=PathUrl.GET_USER_STATUS)
-    public UserResponseDto changeUserStatus(@PathVariable Long userId, @RequestParam String status) {
+    public UserResp changeUserStatus(@PathVariable Long userId, @RequestParam String status) {
         validateStatusChange(status);
         var response = UserMapper.toResponseDto(userService.changeUserStatus(userId, status));
         logResponse(response);
@@ -61,7 +61,7 @@ public class UserController {
     }
 
     @GetMapping
-    public List<UserResponseDto> getAllUsers() {
+    public List<UserResp> getAllUsers() {
         validateGetAllUsers();
         var response = userService.getAllUsers().stream()
                 .map(UserMapper::toResponseDto)
@@ -71,7 +71,7 @@ public class UserController {
     }
 
     @GetMapping(value=PathUrl.GET_USER_ID)
-    public UserResponseDto getUserById(@PathVariable Long userId) {
+    public UserResp getUserById(@PathVariable Long userId) {
         validateGetUserById(userId);
         var response = UserMapper.toResponseDto(userService.getUserById(userId));
         logResponse(response);
